@@ -1,0 +1,82 @@
+// Upload to CloudApp
+//
+// Upload the current artboard or page to CloudApp.
+//
+// Copyright (c) 2015 Mike Gowen, Delighted Inc.
+
+var currentPage = [doc currentPage];
+var currentPageBounds = [currentPage contentBounds];
+var currentArtboard = [[doc currentPage] currentArtboard];
+
+if ([selection count] == 0) {
+  [currentPageBounds expandBy:50];
+  saveFileAndSendToCloudApp(currentPage);
+} else if ([selection count] == 1) {
+  if (currentArtboard) {
+    saveFileAndSendToCloudApp(currentArtboard);
+  } else {
+    [currentPageBounds expandBy:50];
+    saveFileAndSendToCloudApp(currentPage);
+  }
+} else {
+  var uniqueArtboards = getUniqueArtboards(selection);
+  if ([uniqueArtboards count] == 0) {
+    [currentPageBounds expandBy:50];
+    saveFileAndSendToCloudApp(currentPage);
+  } else if ([uniqueArtboards count] == 1) {
+    saveFileAndSendToCloudApp(currentArtboard);
+  } else {
+    [doc showMessage:"Please upload a single artboard or page at a time."];
+  }
+}
+
+function getUniqueArtboards(selection) {
+  var uniqueArtboards = [NSMutableArray array];
+  var loop = [selection objectEnumerator];
+
+  while (selectionItem = [loop nextObject]) {
+    var parent = [selectionItem parentGroup];
+    var parentClass = [parent class];
+    while (parentClass != "MSPage") {
+      if (parentClass == "MSArtboardGroup" && ![uniqueArtboards containsObject:parent]) {
+        [uniqueArtboards addObject:parent];
+      }
+      parent = [parent parentGroup];
+      parentClass = [parent class];
+    }
+  }
+  return uniqueArtboards;
+}
+
+function saveFileAndSendToCloudApp(target) {
+  var path = pathGet(target);
+  saveFile(target, path);
+  sendToCloudApp(target, path);
+}
+
+function pathGet(target) {
+  var fileManager = [NSFileManager defaultManager];
+  var cachesURL = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
+  directory = [[cachesURL URLByAppendingPathComponent:"com.delighted.upload-to-cloudapp"] path];
+  var fullPath = directory + "/" + [target name] + ".png";
+  return fullPath;
+}
+
+function saveFile(target, path) {
+  if ([target class] == "MSPage") {
+    var targetBounds = [target contentBounds];
+    [doc saveArtboardOrSlice:targetBounds toFile:path];
+  } else {
+    [doc saveArtboardOrSlice:target toFile:path];
+  }
+}
+
+function sendToCloudApp(target, path) {
+  var success = [[NSWorkspace sharedWorkspace] openFile:path withApplication:"CloudApp"]];
+  if(success) {
+    var targetName = [target name];
+    [doc showMessage:"Uploading \"" + targetName + "\""];
+  } else {
+    [doc showMessage:"CloudApp is not installed."];
+  }
+}
