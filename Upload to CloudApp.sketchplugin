@@ -51,12 +51,12 @@ function getUniqueArtboards(selection) {
 }
 
 function saveFileAndSendToCloudApp(target) {
-  var path = pathGet(target);
+  var path = getPath(target);
   saveFile(target, path);
   sendToCloudApp(target, path);
 }
 
-function pathGet(target) {
+function getPath(target) {
   var fileManager = [NSFileManager defaultManager];
   var cachesURL = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
   directory = [[cachesURL URLByAppendingPathComponent:"com.delighted.upload-to-cloudapp"] path];
