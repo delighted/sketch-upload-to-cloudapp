@@ -8,20 +8,22 @@ var currentPage = [doc currentPage];
 var currentPageBounds = [currentPage contentBounds];
 var currentArtboard = [[doc currentPage] currentArtboard];
 
+var PAGE_EXPAND_WIDTH = 50;
+
 if ([selection count] == 0) {
-  [currentPageBounds expandBy:50];
+  [currentPageBounds expandBy:PAGE_EXPAND_WIDTH];
   saveFileAndSendToCloudApp(currentPage);
 } else if ([selection count] == 1) {
   if (currentArtboard) {
     saveFileAndSendToCloudApp(currentArtboard);
   } else {
-    [currentPageBounds expandBy:50];
+    [currentPageBounds expandBy:PAGE_EXPAND_WIDTH];
     saveFileAndSendToCloudApp(currentPage);
   }
 } else {
   var uniqueArtboards = getUniqueArtboards(selection);
   if ([uniqueArtboards count] == 0) {
-    [currentPageBounds expandBy:50];
+    [currentPageBounds expandBy:PAGE_EXPAND_WIDTH];
     saveFileAndSendToCloudApp(currentPage);
   } else if ([uniqueArtboards count] == 1) {
     saveFileAndSendToCloudApp(currentArtboard);
