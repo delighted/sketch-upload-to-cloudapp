@@ -4,81 +4,81 @@
 //
 // Copyright (c) 2015 Mike Gowen, Delighted Inc.
 
-var currentPage = [doc currentPage];
-var currentPageBounds = [currentPage contentBounds];
-var currentArtboard = [[doc currentPage] currentArtboard];
+var currentPage = [doc currentPage]
+var currentPageBounds = [currentPage contentBounds]
+var currentArtboard = [[doc currentPage] currentArtboard]
 
-var PAGE_EXPAND_WIDTH = 50;
+var PAGE_EXPAND_WIDTH = 50
 
 if ([selection count] == 0) {
-  [currentPageBounds expandBy:PAGE_EXPAND_WIDTH];
-  saveFileAndSendToCloudApp(currentPage);
+  [currentPageBounds expandBy:PAGE_EXPAND_WIDTH]
+  saveFileAndSendToCloudApp(currentPage)
 } else if ([selection count] == 1) {
   if (currentArtboard) {
-    saveFileAndSendToCloudApp(currentArtboard);
+    saveFileAndSendToCloudApp(currentArtboard)
   } else {
-    [currentPageBounds expandBy:PAGE_EXPAND_WIDTH];
-    saveFileAndSendToCloudApp(currentPage);
+    [currentPageBounds expandBy:PAGE_EXPAND_WIDTH]
+    saveFileAndSendToCloudApp(currentPage)
   }
 } else {
-  var uniqueArtboards = getUniqueArtboards(selection);
+  var uniqueArtboards = getUniqueArtboards(selection)
   if ([uniqueArtboards count] == 0) {
-    [currentPageBounds expandBy:PAGE_EXPAND_WIDTH];
-    saveFileAndSendToCloudApp(currentPage);
+    [currentPageBounds expandBy:PAGE_EXPAND_WIDTH]
+    saveFileAndSendToCloudApp(currentPage)
   } else if ([uniqueArtboards count] == 1) {
-    saveFileAndSendToCloudApp(currentArtboard);
+    saveFileAndSendToCloudApp(currentArtboard)
   } else {
-    [doc showMessage:"Please upload a single artboard or page at a time."];
+    [doc showMessage:"Please upload a single artboard or page at a time."]
   }
 }
 
 function getUniqueArtboards(selection) {
-  var uniqueArtboards = [NSMutableArray array];
-  var loop = [selection objectEnumerator];
+  var uniqueArtboards = [NSMutableArray array]
+  var loop = [selection objectEnumerator]
 
   while (selectionItem = [loop nextObject]) {
-    var parent = [selectionItem parentGroup];
-    var parentClass = [parent class];
+    var parent = [selectionItem parentGroup]
+    var parentClass = [parent class]
     while (parentClass != "MSPage") {
       if (parentClass == "MSArtboardGroup" && ![uniqueArtboards containsObject:parent]) {
-        [uniqueArtboards addObject:parent];
+        [uniqueArtboards addObject:parent]
       }
-      parent = [parent parentGroup];
-      parentClass = [parent class];
+      parent = [parent parentGroup]
+      parentClass = [parent class]
     }
   }
-  return uniqueArtboards;
+  return uniqueArtboards
 }
 
 function saveFileAndSendToCloudApp(target) {
-  var path = getPath(target);
-  saveFile(target, path);
-  sendToCloudApp(target, path);
+  var path = getPath(target)
+  saveFile(target, path)
+  sendToCloudApp(target, path)
 }
 
 function getPath(target) {
-  var fileManager = [NSFileManager defaultManager];
-  var cachesURL = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
-  directory = [[cachesURL URLByAppendingPathComponent:"com.delighted.upload-to-cloudapp"] path];
-  var fullPath = directory + "/" + [target name] + ".png";
-  return fullPath;
+  var fileManager = [NSFileManager defaultManager]
+  var cachesURL = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject]
+  directory = [[cachesURL URLByAppendingPathComponent:"com.delighted.upload-to-cloudapp"] path]
+  var fullPath = directory + "/" + [target name] + ".png"
+  return fullPath
 }
 
 function saveFile(target, path) {
   if ([target class] == "MSPage") {
-    var targetBounds = [target contentBounds];
-    [doc saveArtboardOrSlice:targetBounds toFile:path];
+    var targetBounds = [target contentBounds]
+    [doc saveArtboardOrSlice:targetBounds toFile:path]
   } else {
-    [doc saveArtboardOrSlice:target toFile:path];
+    [doc saveArtboardOrSlice:target toFile:path]
   }
 }
 
 function sendToCloudApp(target, path) {
-  var success = [[NSWorkspace sharedWorkspace] openFile:path withApplication:"CloudApp"]];
+  var success = [[NSWorkspace sharedWorkspace] openFile:path withApplication:"CloudApp"]]
   if(success) {
-    var targetName = [target name];
-    [doc showMessage:"Uploading \"" + targetName + "\""];
+    var targetName = [target name]
+    [doc showMessage:"Uploading \"" + targetName + "\""]
   } else {
-    [doc showMessage:"CloudApp is not installed."];
+    [doc showMessage:"CloudApp is not installed."]
   }
 }
