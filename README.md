@@ -9,7 +9,7 @@ Sketch plugin to upload the selected artboard to CloudApp.
 2. In Sketch, navigate to "Plugins > Manage Plugins".
 3. Click the gear in the bottom left-hand corner.
 4. Click "Show Plugins Folder"
-5. Move "Upload to scrn.es.sketchplugin" to the "Plugins" folder.
+5. Move "Upload to CloudApp.sketchplugin" to the "Plugins" folder.
 
 ## Usage
 
