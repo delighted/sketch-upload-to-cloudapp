@@ -1,19 +1,21 @@
 Sketch plugin: Upload to CloudApp
 =================
 
-Sketch plugin to upload the current artboard or page to CloudApp.
+Sketch plugin to upload the selected artboard to CloudApp.
 
 ## Installation
 
 1. [Download the latest release](https://github.com/delighted/sketch-upload-to-CloudApp/releases/latest) and unzip it.
-2. In Sketch, navigate to "Plugins > Reveal Plugins Folder".
-3. Move "Upload to CloudApp.sketchplugin" to the "Plugins" folder.
+2. In Sketch, navigate to "Plugins > Manage Plugins".
+3. Click the gear in the bottom left-hand corner.
+4. Click "Show Plugins Folder"
+5. Move "Upload to scrn.es.sketchplugin" to the "Plugins" folder.
 
 ## Usage
 
-This plugin will upload the current artboard if you have one selected in the Layers List *or* you have one or more objects selected in one, otherwise it will upload the current page.
+This plugin will upload the selected artboard to CloudApp.
 
-1. Select the artboard or page you'd like to upload.
+1. Select the artboard you'd like to upload.
 2. Navigate to "Plugins > Upload to CloudApp".
 
 ## Feedback
