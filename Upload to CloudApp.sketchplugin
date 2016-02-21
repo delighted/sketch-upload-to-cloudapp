@@ -1,78 +1,57 @@
 // Upload to CloudApp
 //
-// Upload the current artboard or page to CloudApp.
+// Upload selected artboard to CloudApp.
 //
 // Copyright (c) 2015 Mike Gowen, Delighted Inc.
 
-var currentPage = [doc currentPage]
-var currentArtboard = [[doc currentPage] currentArtboard]
+currentArtboard = doc.currentPage().currentArtboard()
+selectionArtboards = getArtboardsFromSelection(selection)
 
-if ([selection count] == 0) {
-  saveFileAndSendToCloudApp(currentPage)
-} else if ([selection count] == 1) {
-  if (currentArtboard) {
-    saveFileAndSendToCloudApp(currentArtboard)
-  } else {
-    saveFileAndSendToCloudApp(currentPage)
-  }
+if (selection.count() == 0 || selectionArtboards.count() == 0) {
+  doc.showMessage("Please select an artboard.")
 } else {
-  var uniqueArtboards = getUniqueArtboards(selection)
-  if ([uniqueArtboards count] == 0) {
-    saveFileAndSendToCloudApp(currentPage)
-  } else if ([uniqueArtboards count] == 1) {
-    saveFileAndSendToCloudApp(currentArtboard)
+  if (selectionArtboards.count() > 1) {
+    doc.showMessage("Please select a single artboard.")
   } else {
-    [doc showMessage:"Please upload a single artboard or page at a time."]
+    saveAndUploadArtboard(currentArtboard)
   }
 }
 
-function getUniqueArtboards(selection) {
-  var uniqueArtboards = [NSMutableArray array]
-  var loop = [selection objectEnumerator]
+function saveAndUploadArtboard(artboard) {
+  path = getArtboardSavePath(artboard)
+  doc.saveArtboardOrSlice_toFile(artboard, path)
+  uploadArtboard(path)
+}
 
-  while (selectionItem = [loop nextObject]) {
-    var parent = [selectionItem parentGroup]
-    var parentClass = [parent class]
-    while (parentClass != "MSPage") {
-      if (parentClass == "MSArtboardGroup" && ![uniqueArtboards containsObject:parent]) {
-        [uniqueArtboards addObject:parent]
-      }
-      parent = [parent parentGroup]
-      parentClass = [parent class]
+function uploadArtboard(path) {
+  appPath = NSWorkspace.sharedWorkspace().fullPathForApplication("CloudApp")
+
+  if (appPath == nil) {
+    doc.showMessage("CloudApp is not installed.")
+  } else {
+    uploadSuccess = NSWorkspace.sharedWorkspace().openFile_withApplication(path, "CloudApp")
+    if (uploadSuccess) {
+      doc.showMessage("Done.")
     }
   }
-  return uniqueArtboards
 }
 
-function saveFileAndSendToCloudApp(target) {
-  var path = getPath(target)
-  saveFile(target, path)
-  sendToCloudApp(target, path)
+function getArtboardsFromSelection(selection) {
+  artboards = NSMutableArray.array()
+  loop = selection.objectEnumerator()
+
+  while (selectionItem = loop.nextObject()) {
+    if (selectionItem.class() == "MSArtboardGroup") {
+      artboards.addObject(selectionItem)
+    }
+  }
+  return artboards
 }
 
-function getPath(target) {
-  var fileManager = [NSFileManager defaultManager]
-  var cachesURL = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject]
-  directory = [[cachesURL URLByAppendingPathComponent:"com.delighted.upload-to-cloudapp"] path]
-  var fullPath = directory + "/" + [target name] + ".png"
+function getArtboardSavePath(artboard) {
+  fileManager = NSFileManager.defaultManager()
+  cachesURL = fileManager.URLsForDirectory_inDomains(NSCachesDirectory, NSUserDomainMask).lastObject()
+  directory = cachesURL.URLByAppendingPathComponent("com.delighted.upload-to-cloudapp").path()
+  fullPath = directory + "/" + artboard.name() + ".png"
   return fullPath
-}
-
-function saveFile(target, path) {
-  if ([target class] == "MSPage") {
-    var targetBounds = [target contentBounds]
-    [doc saveArtboardOrSlice:targetBounds toFile:path]
-  } else {
-    [doc saveArtboardOrSlice:target toFile:path]
-  }
-}
-
-function sendToCloudApp(target, path) {
-  var success = [[NSWorkspace sharedWorkspace] openFile:path withApplication:"CloudApp"]]
-  if(success) {
-    var targetName = [target name]
-    [doc showMessage:"Uploading \"" + targetName + "\""]
-  } else {
-    [doc showMessage:"CloudApp is not installed."]
-  }
 }
