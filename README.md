@@ -6,10 +6,7 @@ Sketch plugin to upload the selected artboard to CloudApp.
 ## Installation
 
 1. [Download the latest release](https://github.com/delighted/sketch-upload-to-CloudApp/releases/latest) and unzip it.
-2. In Sketch, navigate to "Plugins > Manage Plugins".
-3. Click the gear in the bottom left-hand corner.
-4. Click "Show Plugins Folder"
-5. Move "Upload to CloudApp.sketchplugin" to the "Plugins" folder.
+2. Double click "sketch-upload-to-CloudApp.sketchplugin"
 
 ## Usage
 
@@ -32,7 +29,7 @@ Send any comments, concerns, or suggestions to [mike@delighted.com](mailto:mike@
 
 ## License
 
-Copyright (c) 2015 Mike Gowen, Delighted Inc.
+Copyright (c) 2016 Mike Gowen, Delighted Inc.
 
 MIT License
 
