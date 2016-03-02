@@ -1,0 +1,24 @@
+{
+  "author" : "Mike Gowen",
+  "commands" : [
+    {
+      "script" : "Upload to CloudApp.cocoascript",
+      "handler" : "onRun",
+      "shortcut" : "",
+      "name" : "Upload to CloudApp",
+      "identifier" : "upload-to-cloudapp"
+    }
+  ],
+  "menu" : {
+    "isRoot" : true,
+    "items" : [
+      "upload-to-cloudapp"
+    ]
+  },
+  "identifier" : "com.delighted.upload-to-cloudapp",
+  "version" : "2.1",
+  "description" : "Sketch plugin to upload the selected artboard to CloudApp.",
+  "authorEmail" : "mike@delighted.com",
+  "name" : "Upload to CloudApp"
+}
+
