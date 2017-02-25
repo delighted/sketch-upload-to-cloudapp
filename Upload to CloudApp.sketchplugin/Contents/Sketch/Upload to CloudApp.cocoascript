@@ -35,7 +35,7 @@ onRun = function (context) {
     } else {
       uploadSuccess = NSWorkspace.sharedWorkspace().openFile_withApplication(path, "CloudApp")
       if (uploadSuccess) {
-        doc.showMessage("Done.")
+        doc.showMessage("Upload finished!")
       }
     }
   }
