@@ -13,7 +13,7 @@ Sketch plugin to upload the selected artboard to CloudApp.
 This plugin will upload the selected artboard to CloudApp.
 
 1. Select the artboard you'd like to upload.
-2. Navigate to "Plugins > Upload to CloudApp".
+2. Navigate to "Plugins > Upload to CloudApp" or hit Ctrl-Alt-⌘-U.
 
 ## Feedback
 
