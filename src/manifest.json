@@ -1,0 +1,24 @@
+{
+  "name": "Upload to CloudApp",
+  "description": "Sketch plugin to upload the selected artboard to CloudApp.",
+  "author": "Mike Gowen",
+  "authorEmail" : "mike@delighted.com",
+  "homepage": "https://github.com/delighted/sketch-upload-to-cloudapp",
+  "version": "3.0.0",
+  "identifier": "com.delighted.upload-to-cloudapp",
+  "compatibleVersion": 3,
+  "bundleVersion": 1,
+  "commands" : [
+    {
+      "script" : "./sketch-upload-to-cloudapp.js",
+      "name" : "Upload to CloudApp",
+      "identifier" : "upload-to-cloudapp"
+    }
+  ],
+  "menu" : {
+    "isRoot" : true,
+    "items" : [
+      "upload-to-cloudapp"
+    ]
+  }
+}

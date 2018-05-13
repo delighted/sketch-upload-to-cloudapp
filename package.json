@@ -1,0 +1,28 @@
+{
+  "name": "sketch-upload-to-cloudapp",
+  "description": "Sketch plugin to upload the selected artboard to CloudApp.",
+  "version": "2.0.0",
+  "engines": {
+    "sketch": ">=3.0"
+  },
+  "skpm": {
+    "name": "sketch-upload-to-cloudapp",
+    "manifest": "src/manifest.json",
+    "main": "sketch-upload-to-cloudapp.sketchplugin"
+  },
+  "scripts": {
+    "build": "skpm-build",
+    "watch": "skpm-build --watch",
+    "start": "skpm-build --watch --run",
+    "postinstall": "npm run build && skpm-link"
+  },
+  "devDependencies": {
+    "@skpm/builder": "^0.5.2"
+  },
+  "author": "Mike Gowen <mike@delighted.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/delighted/sketch-upload-to-cloudapp"
+  },
+  "license": "MIT"
+}

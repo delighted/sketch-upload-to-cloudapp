@@ -1,0 +1,10 @@
+# build artifacts
+sketch-upload-to-cloudapp.sketchplugin
+
+# npm
+node_modules
+.npm
+npm-debug.log
+
+# mac
+.DS_Store
