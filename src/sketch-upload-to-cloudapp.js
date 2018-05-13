@@ -27,16 +27,13 @@ export default function(context) {
 // Functions
 
 function uploadSavedArtboard(savedArtboardPath) {
-  let uploadSuccess = NSWorkspace.sharedWorkspace().openFile_withApplication(savedArtboardPath, "CloudApp")
-  if (uploadSuccess) {
-    sketch.UI.message("Artboard uploaded!");
-  }
+  SBApplication.application("CloudApp").upload(savedArtboardPath);
 }
 
 function saveArtboardToDirectory(artboard, directory) {
   let fullPath = directory + "/" + artboard.name + ".png";
-  sketch.export(artboard, { output: fullPath });
-  return fullPath;
+  sketch.export(artboard, { output: directory });
+  return NSURL.fileURLWithPath(fullPath);
 }
 
 function saveDirectory() {
@@ -46,7 +43,6 @@ function saveDirectory() {
 }
 
 function validSelection(selectedLayers) {
-  log(NSWorkspace.sharedWorkspace().fullPathForApplication("CloudApp"));
   if (selectedLayers.length !== 1) return false;
   if (selectedLayers[0].type !== String(sketch.Types.Artboard)) return false;
   if (!NSWorkspace.sharedWorkspace().fullPathForApplication("CloudApp")) return false;
